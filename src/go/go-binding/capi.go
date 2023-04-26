@@ -1,5 +1,6 @@
 package main
 
+// #cgo LDFLAGS: -L"../../capi_frontend" -lcapic++
 // #cgo CPPFLAGS: -I"../.."
 // #include <ovms.h>
 import "C"
@@ -17,18 +18,38 @@ type OVMS_InferenceRequest struct {
 }
 
 type OVMS_InferenceResponse struct {
-	OVMS_InferenceResponse C.OVMS_InferenceResponse
+	OVMS_InferenceResponse *C.OVMS_InferenceResponse
 }
 
-func OVMS_ServerStartFromConfigurationFile() {
+func OVMS_InferenceRequestNew() {
 	return
 }
 
-func OVMS_Inference(server *OVMS_Server, inferenceRequest *OVMS_InferenceRequest, inferenceResponse **OVMS_InferenceResponse) interface{} {
+func OVMS_InferenceRequestAddInput() {
+	return
+}
+
+func OVMS_InferenceRequestInputSetData() {
+	return
+}
+
+func C_API_OVMS_Inference(server *OVMS_Server, inferenceRequest *OVMS_InferenceRequest, inferenceResponse **OVMS_InferenceResponse) interface{} {
 	// serverPointer := (C.OVMS_Server)(unsafe.Pointer(server.OVMS_Server))
 
 	// inferenceRsponsePointer := unsafe.Pointer(&inferenceResponse.OVMS_InferenceResponse)
 	// defer C.free(unsafe.Pointer(inferenceResponse.OVMS_InferenceResponse))
 
 	return C.OVMS_Inference(&server.OVMS_Server, &inferenceRequest.OVMS_InferenceRequest, &((*inferenceResponse).OVMS_InferenceResponse))
+}
+
+func OVMS_StatusGetCode() {
+	return
+}
+
+func OVMS_StatusGetDetails() {
+	return
+}
+
+func main() {
+	return
 }
