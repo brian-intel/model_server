@@ -1,8 +1,9 @@
 package main
 
-// #cgo LDFLAGS: -L"../../capi_frontend" -lcapic++
-// #cgo CPPFLAGS: -I"../.."
-// #include <ovms.h>
+// #include <stdlib.h>
+// #cgo CFLAGS: -Wall -I"/ovms/lib"
+// #cgo LDFLAGS: -L"/ovms/lib" -lovms_shared
+// #include <../../ovms.h>
 import "C"
 
 type OVMS_Status struct {
