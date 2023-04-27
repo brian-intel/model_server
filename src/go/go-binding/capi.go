@@ -3,7 +3,7 @@ package main
 // #include <stdlib.h>
 // #cgo CFLAGS: -Wall -I"/ovms/lib"
 // #cgo LDFLAGS: -L"/ovms/lib" -lovms_shared
-// #include <../../ovms.h>
+// #include </ovms/include/ovms.h>
 import "C"
 
 type OVMS_Status struct {
