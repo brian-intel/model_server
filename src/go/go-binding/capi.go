@@ -8,13 +8,15 @@ import "C"
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"log"
 	"net/http"
-	"reflect"
 	"time"
 	"unsafe"
 
 	"github.com/hybridgroup/mjpeg"
+	tensoroutput "github.com/openvinotoolkit/model_sever/src/go/go-binding/tensorOutput"
+	"github.com/openvinotoolkit/model_sever/src/go/go-binding/yolov5"
 	"gocv.io/x/gocv"
 )
 
@@ -80,10 +82,10 @@ func (level LogLevel) LogLevelInt() int {
 	}
 }
 
-type TensorOutput struct {
+type OVMSOutput struct {
 	Name       string
 	DataType   OVMS_DataType
-	Shape      []int
+	Shape      []int64
 	DimCount   int
 	BufferType OVMS_BufferType
 	DeviceId   int
@@ -157,7 +159,7 @@ func (request *OVMS_InferenceRequest) OVMS_InferenceRequestAddInput(inputName st
 	cShape := (*C.size_t)(&cSizeArray[0])
 
 	// cShape := (C.uint64_t)(unsafe.Pointer(&shape[0]))
-	
+
 	// defer C.free(unsafe.Pointer(cShape))
 
 	status.OVMS_Status = C.OVMS_InferenceRequestAddInput(request.OVMS_InferenceRequest, cInputName, cDataType, cShape, cDimCount)
@@ -175,10 +177,8 @@ func (request *OVMS_InferenceRequest) OVMS_InferenceRequestInputSetData(inputNam
 	defer C.free(unsafe.Pointer(cInputName))
 
 	cBuffersize := C.size_t(bufferSize)
-	// defer C.free(unsafe.Pointer(&cBuffersize))
 
 	cDeviceId := C.uint32_t(deviceId)
-	// defer C.free(unsafe.Pointer(&cDeviceId))
 
 	ptrData := unsafe.Pointer(&data[0])
 	cBufferType := C.OVMS_BufferType(bufferType)
@@ -214,26 +214,17 @@ func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutputCount() (
 	if status.OVMS_Status != nil {
 		code, _ := status.OVMS_StatusGetCode()
 		details, _ := status.OVMS_StatusGetDetails()
-		return 0, fmt.Errorf("failed to get output count from inference response, status code=%v, details=%v", code,details)
+		return 0, fmt.Errorf("failed to get output count from inference response, status code=%v, details=%v", code, details)
 	}
 	return (int)(cCount), nil
 
 }
-func Carray2slice(array *C.uint64_t, len int) []C.int {
-	var list []C.int
-	sliceHeader := (*reflect.SliceHeader)((unsafe.Pointer(&list)))
-	sliceHeader.Cap = len
-	sliceHeader.Len = len
-	sliceHeader.Data = uintptr(unsafe.Pointer(array))
-	return list
-}
 
-func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutput(id int32, deviceId int) (*TensorOutput, error) {
-	var cName  = C.CString("")
+func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutput(id int32, deviceId int) (*OVMSOutput, error) {
+	var cName = C.CString("")
 	defer C.free(unsafe.Pointer(cName))
 
 	var dataType C.OVMS_DataType
-
 
 	var cShape *C.size_t
 	defer C.free(unsafe.Pointer(cShape))
@@ -261,12 +252,12 @@ func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutput(id int32
 	}
 
 	goDimCount := int(dimCount)
-	outShape := []int{}
+	outShape := []int64{}
 	shapeSlice := unsafe.Slice(cShape, goDimCount)
 	for _, val := range shapeSlice {
-		outShape = append(outShape, int(val))
+		outShape = append(outShape, int64(val))
 	}
-	tensorOutput := TensorOutput{
+	tensorOutput := OVMSOutput{
 		DeviceId:   int(cDeviceId),
 		Name:       C.GoString(cName),
 		DataType:   (OVMS_DataType)(dataType),
@@ -282,7 +273,6 @@ func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutput(id int32
 
 func (status *OVMS_Status) OVMS_StatusGetCode() (int32, error) {
 	cINT32 := C.uint32_t(0)
-	// defer C.free(unsafe.Pointer(&cINT32))
 
 	rtnStatus := OVMS_Status{}
 	rtnStatus.OVMS_Status = C.OVMS_StatusGetCode(status.OVMS_Status, &cINT32)
@@ -486,8 +476,9 @@ func main() {
 
 	// create the mjpeg stream
 	stream := mjpeg.NewStream()
-
-	go run(webcam, &img, stream, server)
+	camHeight := float32(webcam.Get(gocv.VideoCaptureFrameHeight))
+	camWidth := float32(webcam.Get(gocv.VideoCaptureFrameWidth))
+	go run(webcam, &img, stream, server, camWidth, camHeight)
 
 	// start http server
 	http.Handle("/", stream)
@@ -496,7 +487,7 @@ func main() {
 }
 
 func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
-		server *OVMS_Server) {
+	server *OVMS_Server, camWidth float32, camHeight float32) {
 	for webcam.IsOpened() {
 		if ok := webcam.Read(img); !ok {
 			// retry once after 1 millisecond
@@ -513,48 +504,70 @@ func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
 		img.ConvertTo(img, gocv.MatTypeCV32F)
 		imgToBytes := img.ToBytes()
 
-		// start := time.Now().UnixMilli()
+		start := time.Now().UnixMilli()
 
-		request, err := OVMS_InferenceRequestNew(server,"yolov5",0)
+		request, err := OVMS_InferenceRequestNew(server, "yolov5s", 0)
 		if err != nil {
-			fmt.Printf("failed to create new inference request: %v\n",err)
+			fmt.Printf("failed to create new inference request: %v\n", err)
 		}
 
-		err = request.OVMS_InferenceRequestAddInput("images",OVMS_DATATYPE_FP32,[]int64{1,416,416,3},4)
+		err = request.OVMS_InferenceRequestAddInput("images", OVMS_DATATYPE_FP32, []int64{1, 416, 416, 3}, 4)
 		if err != nil {
 			fmt.Printf("failed to add input to inference request: %v\n", err)
 		}
 
 		dataSize := img.Step() * img.Rows()
 
-		err = request.OVMS_InferenceRequestInputSetData("images",imgToBytes,dataSize,OVMS_BUFFERTYPE_CPU,0)
+		err = request.OVMS_InferenceRequestInputSetData("images", imgToBytes, dataSize, OVMS_BUFFERTYPE_CPU, 0)
 		if err != nil {
 			fmt.Printf("failed to set input data to inference request: %v\n", err)
 		}
 
-		response, err := OVMS_Inference(server,request)
+		response, err := OVMS_Inference(server, request)
 		if err != nil {
 			fmt.Printf("failed to get response for inference request: %v\n", err)
 		}
 
+		// track the latency after inference
+		afterInfer := time.Now().UnixMilli()
+		fmt.Printf("latency after infer: %v\n", afterInfer-start)
 
 		outputCount, err := response.OVMS_InferenceResponseGetOutputCount()
 		if err != nil {
 			fmt.Printf("failed to get output count from inference response: %v\n", err)
 		}
-		fmt.Printf(">>>>Output Count: %v\n", outputCount)
-
 
 		// collect all tensor outputs
-		TensorOutputs := []*TensorOutput{}
-		for id:= (int32)(outputCount-1);id>=0;id--{
-			tensorOutput, err := response.OVMS_InferenceResponseGetOutput(id,42)
+		tensorOutputs := tensoroutput.TensorOutputs{}
+		for id := (int32)(outputCount - 1); id >= 0; id-- {
+			ovmsOutput, err := response.OVMS_InferenceResponseGetOutput(id, 42)
 			if err != nil {
 				fmt.Printf("failed to get output from inference response: %v\n", err)
 			}
-			TensorOutputs = append(TensorOutputs, tensorOutput)
+			tensorOutputs.RawData = append(tensorOutputs.RawData, ovmsOutput.Data)
+			tensorOutputs.DataShapes = append(tensorOutputs.DataShapes, ovmsOutput.Shape)
 		}
-		
+
+		err = tensorOutputs.ParseRawData()
+		if err != nil {
+			fmt.Printf("failed to parse raw byte data: %v\n", err)
+		}
+		detectedObjects := yolov5.DetectedObjects{}
+		err = detectedObjects.Postprocess(tensorOutputs, camWidth, camHeight)
+		if err != nil {
+			fmt.Printf("post process failed: %v\n", err)
+		}
+		fmt.Printf("length of detectedObjects after  processing: %v\n", len(detectedObjects.Objects))
+		detectedObjects = detectedObjects.FinalPostProcessAdvanced()
+		// debug
+		fmt.Printf("length of detectedObjects after final processing: %v\n", len(detectedObjects.Objects))
+
+		// // track the latency after  processing latency
+		afterFinalProcess := time.Now().UnixMilli()
+		fmt.Printf("latency after final process: %v\n", afterFinalProcess-start)
+
+		// add bounding boxes to resixed image
+		detectedObjects.AddBoxesToFrame(img, color.RGBA{0, 255, 0, 0}, camWidth, camWidth)
 
 		buf, _ := gocv.IMEncode(".jpg", *img)
 		stream.UpdateJPEG(buf.GetBytes())

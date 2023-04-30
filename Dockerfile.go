@@ -6,7 +6,7 @@ FROM ovms_capi_ocv_gst:latest
 # required for installing dependencies
 USER root
 
-RUN apt-get update && apt-get install -y --no-install-recommends libjpeg62 libdc1394-25
+RUN apt-get update && apt-get install -y --no-install-recommends libjpeg62 libdc1394-25 gtk+2.0-dev
 
 # needed for gocv bindings and env is custom
 ENV CGO_CPPFLAGS="-I/usr/local/include/opencv4"
