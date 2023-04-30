@@ -87,7 +87,7 @@ type TensorOutput struct {
 	DimCount   int
 	BufferType OVMS_BufferType
 	DeviceId   int
-	Data       interface{}
+	Data       []byte
 	ByteSize   int
 }
 
@@ -229,38 +229,31 @@ func Carray2slice(array *C.uint64_t, len int) []C.int {
 }
 
 func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutput(id int32, deviceId int) (*TensorOutput, error) {
-	var cName  *C.char
+	var cName  = C.CString("")
 	defer C.free(unsafe.Pointer(cName))
 
-	dataType := C.OVMS_DataType(42)
-	// defer C.free(unsafe.Pointer(&dataType))
+	var dataType C.OVMS_DataType
 
-	var shape  *C.uint64_t = new(C.uint64_t)
-	// defer C.free(unsafe.Pointer(&shape))
 
-	dimCount := C.uint32_t(0)
-	// defer C.free(unsafe.Pointer(&dimCount))
+	var cShape *C.size_t
+	defer C.free(unsafe.Pointer(cShape))
 
-	var data *C.void = new(C.void)
-	cData := unsafe.Pointer(&data)
-	// defer C.free(cData)
+	var dimCount C.uint32_t
 
-	bufferType := C.OVMS_BufferType(42)
-	// defer C.free(unsafe.Pointer(&bufferType))
+	var data unsafe.Pointer
 
-	byteSize := C.size_t(0)
-	// C.free(unsafe.Pointer(&byteSize))
+	var bufferType C.OVMS_BufferType
+
+	var byteSize C.size_t
 
 	cId := C.uint32_t(id)
-	// defer C.free(unsafe.Pointer(&cId))
 
 	cDeviceId := C.uint32_t(deviceId)
-	// defer C.free(unsafe.Pointer(&cDeviceId))
 
 	status := OVMS_Status{}
 
 	status.OVMS_Status = C.OVMS_InferenceResponseGetOutput(response.OVMS_InferenceResponse,
-		cId, &cName, &dataType, &shape, &dimCount, &cData, &byteSize, &bufferType, &cDeviceId)
+		cId, &cName, &dataType, &cShape, &dimCount, &data, &byteSize, &bufferType, &cDeviceId)
 
 	if status.OVMS_Status != nil {
 		code, _ := status.OVMS_StatusGetCode()
@@ -269,8 +262,8 @@ func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutput(id int32
 
 	goDimCount := int(dimCount)
 	outShape := []int{}
-	cShapeInt := Carray2slice(shape, goDimCount)
-	for _, val := range cShapeInt {
+	shapeSlice := unsafe.Slice(cShape, goDimCount)
+	for _, val := range shapeSlice {
 		outShape = append(outShape, int(val))
 	}
 	tensorOutput := TensorOutput{
@@ -280,7 +273,7 @@ func (response *OVMS_InferenceResponse) OVMS_InferenceResponseGetOutput(id int32
 		Shape:      outShape,
 		DimCount:   goDimCount,
 		BufferType: (OVMS_BufferType)(bufferType),
-		Data:       data,
+		Data:       C.GoBytes(data, (C.int)(byteSize)),
 		ByteSize:   int(byteSize),
 	}
 
@@ -551,14 +544,17 @@ func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
 		}
 		fmt.Printf(">>>>Output Count: %v\n", outputCount)
 
-		outputId := outputCount - 1
 
-		tensorOutput, err := response.OVMS_InferenceResponseGetOutput(int32(outputId),42)
-		if err != nil {
-			fmt.Printf("failed to get output from inference response: %v\n", err)
+		// collect all tensor outputs
+		TensorOutputs := []*TensorOutput{}
+		for id:= (int32)(outputCount-1);id>=0;id--{
+			tensorOutput, err := response.OVMS_InferenceResponseGetOutput(id,42)
+			if err != nil {
+				fmt.Printf("failed to get output from inference response: %v\n", err)
+			}
+			TensorOutputs = append(TensorOutputs, tensorOutput)
 		}
-
-		fmt.Printf("tensorOutput >>>> %v\n",*tensorOutput)
+		
 
 		buf, _ := gocv.IMEncode(".jpg", *img)
 		stream.UpdateJPEG(buf.GetBytes())
