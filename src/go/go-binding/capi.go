@@ -65,6 +65,12 @@ const (
 	OVMS_BUFFERTYPE_HDDL
 )
 
+const (
+	modelName = "yolov5s"
+	modelConfigPath = "/app/config_yolov5.json"
+	inputVideoSource = "/ovms/demos/coca-cola-4465029.mp4"
+)
+
 func (level LogLevel) LogLevelInt() int {
 	switch level {
 	case OVMS_LOG_TRACE:
@@ -452,7 +458,7 @@ func main() {
 	serverSettings.OVMS_ServerSettingsSetLogLevel(logLevel)
 
 	// config_yolov5.json
-	modelSettings.OVMS_ModelsSettingsSetConfigPath("/ovms/demos/config_yolov5.json")
+	modelSettings.OVMS_ModelsSettingsSetConfigPath(modelConfigPath)
 
 	server.OVMS_ServerSettings = serverSettings
 	server.OVMS_ModelsSettings = modelSettings
@@ -463,7 +469,7 @@ func main() {
 		server.OVMS_ServerDelete()
 
 	}
-	inputSrc := "/ovms/demos/coca-cola-4465029.mp4"
+	inputSrc := inputVideoSource
 	webcam, err := gocv.OpenVideoCapture(inputSrc) //  /dev/video4
 	if err != nil {
 		errMsg := fmt.Errorf("faile to open device: %s", inputSrc)
@@ -506,7 +512,7 @@ func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
 
 		start := time.Now().UnixMilli()
 
-		request, err := OVMS_InferenceRequestNew(server, "yolov5s", 0)
+		request, err := OVMS_InferenceRequestNew(server, modelName, 0)
 		if err != nil {
 			fmt.Printf("failed to create new inference request: %v\n", err)
 		}
