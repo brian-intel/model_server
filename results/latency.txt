@@ -1,0 +1,412 @@
+latency after infer: 11
+average latency after final process: 18
+latency after infer: 12
+average latency after final process: 19
+latency after infer: 11.666666666666666
+average latency after final process: 20
+latency after infer: 11
+average latency after final process: 19.5
+latency after infer: 10.6
+average latency after final process: 18.8
+latency after infer: 10.333333333333334
+average latency after final process: 18.166666666666668
+latency after infer: 10.571428571428571
+average latency after final process: 18.428571428571427
+latency after infer: 10.125
+average latency after final process: 18
+latency after infer: 9.777777777777779
+average latency after final process: 17.88888888888889
+latency after infer: 9.8
+average latency after final process: 18.1
+latency after infer: 9.636363636363637
+average latency after final process: 17.818181818181817
+latency after infer: 9.583333333333334
+average latency after final process: 17.833333333333332
+latency after infer: 9.692307692307692
+average latency after final process: 17.76923076923077
+latency after infer: 9.714285714285714
+average latency after final process: 17.857142857142858
+latency after infer: 9.6
+average latency after final process: 17.866666666666667
+latency after infer: 9.4375
+average latency after final process: 17.6875
+latency after infer: 9.411764705882353
+average latency after final process: 17.705882352941178
+latency after infer: 9.277777777777779
+average latency after final process: 17.61111111111111
+latency after infer: 9.210526315789474
+average latency after final process: 17.57894736842105
+latency after infer: 9.05
+average latency after final process: 17.3
+latency after infer: 9.142857142857142
+average latency after final process: 17.285714285714285
+latency after infer: 9.090909090909092
+average latency after final process: 17.136363636363637
+latency after infer: 9
+average latency after final process: 17.130434782608695
+latency after infer: 8.958333333333334
+average latency after final process: 17.166666666666668
+latency after infer: 9.08
+average latency after final process: 17.36
+latency after infer: 9.26923076923077
+average latency after final process: 17.46153846153846
+latency after infer: 9.185185185185185
+average latency after final process: 17.333333333333332
+latency after infer: 9.25
+average latency after final process: 17.428571428571427
+latency after infer: 9.413793103448276
+average latency after final process: 17.655172413793103
+latency after infer: 9.5
+average latency after final process: 17.733333333333334
+latency after infer: 9.387096774193548
+average latency after final process: 17.612903225806452
+latency after infer: 9.34375
+average latency after final process: 17.53125
+latency after infer: 9.272727272727273
+average latency after final process: 17.515151515151516
+latency after infer: 9.264705882352942
+average latency after final process: 17.470588235294116
+latency after infer: 9.2
+average latency after final process: 17.37142857142857
+latency after infer: 9.194444444444445
+average latency after final process: 17.36111111111111
+latency after infer: 9.18918918918919
+average latency after final process: 17.324324324324323
+latency after infer: 9.18421052631579
+average latency after final process: 17.263157894736842
+latency after infer: 9.153846153846153
+average latency after final process: 17.256410256410255
+latency after infer: 9.15
+average latency after final process: 17.2
+latency after infer: 9.146341463414634
+average latency after final process: 17.170731707317074
+latency after infer: 9.142857142857142
+average latency after final process: 17.214285714285715
+latency after infer: 9.069767441860465
+average latency after final process: 17.162790697674417
+latency after infer: 9.045454545454545
+average latency after final process: 17.181818181818183
+latency after infer: 9.022222222222222
+average latency after final process: 17.2
+latency after infer: 9
+average latency after final process: 17.195652173913043
+latency after infer: 9
+average latency after final process: 17.19148936170213
+latency after infer: 8.958333333333334
+average latency after final process: 17.208333333333332
+latency after infer: 9.081632653061224
+average latency after final process: 17.306122448979593
+latency after infer: 9.06
+average latency after final process: 17.26
+latency after infer: 9.137254901960784
+average latency after final process: 17.352941176470587
+latency after infer: 9.26923076923077
+average latency after final process: 17.51923076923077
+latency after infer: 9.245283018867925
+average latency after final process: 17.471698113207548
+latency after infer: 9.24074074074074
+average latency after final process: 17.48148148148148
+latency after infer: 9.218181818181819
+average latency after final process: 17.545454545454547
+latency after infer: 9.214285714285714
+average latency after final process: 17.535714285714285
+latency after infer: 9.192982456140351
+average latency after final process: 17.50877192982456
+latency after infer: 9.155172413793103
+average latency after final process: 17.46551724137931
+latency after infer: 9.135593220338983
+average latency after final process: 17.45762711864407
+latency after infer: 9.166666666666666
+average latency after final process: 17.466666666666665
+latency after infer: 9.163934426229508
+average latency after final process: 17.475409836065573
+latency after infer: 9.193548387096774
+average latency after final process: 17.532258064516128
+latency after infer: 9.158730158730158
+average latency after final process: 17.523809523809526
+latency after infer: 9.421875
+average latency after final process: 17.828125
+latency after infer: 9.415384615384616
+average latency after final process: 17.784615384615385
+latency after infer: 9.43939393939394
+average latency after final process: 17.833333333333332
+latency after infer: 9.417910447761194
+average latency after final process: 17.83582089552239
+latency after infer: 9.411764705882353
+average latency after final process: 17.83823529411765
+latency after infer: 9.376811594202898
+average latency after final process: 17.768115942028984
+latency after infer: 9.357142857142858
+average latency after final process: 17.757142857142856
+latency after infer: 9.338028169014084
+average latency after final process: 17.732394366197184
+latency after infer: 9.319444444444445
+average latency after final process: 17.73611111111111
+latency after infer: 9.356164383561644
+average latency after final process: 17.73972602739726
+latency after infer: 9.364864864864865
+average latency after final process: 17.716216216216218
+latency after infer: 9.36
+average latency after final process: 17.746666666666666
+latency after infer: 9.355263157894736
+average latency after final process: 17.763157894736842
+latency after infer: 9.376623376623376
+average latency after final process: 17.77922077922078
+latency after infer: 9.371794871794872
+average latency after final process: 17.743589743589745
+latency after infer: 9.354430379746836
+average latency after final process: 17.734177215189874
+latency after infer: 9.35
+average latency after final process: 17.7375
+latency after infer: 9.320987654320987
+average latency after final process: 17.679012345679013
+latency after infer: 9.304878048780488
+average latency after final process: 17.695121951219512
+latency after infer: 9.337349397590362
+average latency after final process: 17.72289156626506
+latency after infer: 9.369047619047619
+average latency after final process: 17.761904761904763
+latency after infer: 9.423529411764706
+average latency after final process: 17.788235294117648
+latency after infer: 9.453488372093023
+average latency after final process: 17.86046511627907
+latency after infer: 9.448275862068966
+average latency after final process: 17.862068965517242
+latency after infer: 9.431818181818182
+average latency after final process: 17.852272727272727
+latency after infer: 9.48314606741573
+average latency after final process: 17.8876404494382
+latency after infer: 9.466666666666667
+average latency after final process: 17.877777777777776
+latency after infer: 9.43956043956044
+average latency after final process: 17.87912087912088
+latency after infer: 9.434782608695652
+average latency after final process: 17.880434782608695
+latency after infer: 9.43010752688172
+average latency after final process: 17.881720430107528
+latency after infer: 9.425531914893616
+average latency after final process: 17.872340425531913
+latency after infer: 9.505263157894737
+average latency after final process: 17.936842105263157
+latency after infer: 9.489583333333334
+average latency after final process: 17.927083333333332
+latency after infer: 9.494845360824742
+average latency after final process: 17.948453608247423
+latency after infer: 9.46938775510204
+average latency after final process: 17.918367346938776
+latency after infer: 9.464646464646465
+average latency after final process: 17.91919191919192
+latency after infer: 9.46
+average latency after final process: 17.94
+latency after infer: 9.445544554455445
+average latency after final process: 17.940594059405942
+latency after infer: 9.480392156862745
+average latency after final process: 17.95098039215686
+latency after infer: 9.475728155339805
+average latency after final process: 17.932038834951456
+latency after infer: 9.48076923076923
+average latency after final process: 17.942307692307693
+latency after infer: 9.495238095238095
+average latency after final process: 17.952380952380953
+latency after infer: 9.471698113207546
+average latency after final process: 17.90566037735849
+latency after infer: 9.457943925233645
+average latency after final process: 17.869158878504674
+latency after infer: 9.462962962962964
+average latency after final process: 17.85185185185185
+latency after infer: 9.458715596330276
+average latency after final process: 17.862385321100916
+latency after infer: 9.436363636363636
+average latency after final process: 17.863636363636363
+latency after infer: 9.414414414414415
+average latency after final process: 17.846846846846848
+latency after infer: 9.392857142857142
+average latency after final process: 17.803571428571427
+latency after infer: 9.371681415929203
+average latency after final process: 17.787610619469028
+latency after infer: 9.394736842105264
+average latency after final process: 17.79824561403509
+latency after infer: 9.391304347826088
+average latency after final process: 17.791304347826088
+latency after infer: 9.379310344827585
+average latency after final process: 17.79310344827586
+latency after infer: 9.350427350427351
+average latency after final process: 17.76923076923077
+latency after infer: 9.338983050847459
+average latency after final process: 17.75423728813559
+latency after infer: 9.327731092436975
+average latency after final process: 17.756302521008404
+latency after infer: 9.3
+average latency after final process: 17.708333333333332
+latency after infer: 9.347107438016529
+average latency after final process: 17.776859504132233
+latency after infer: 9.434426229508198
+average latency after final process: 17.852459016393443
+latency after infer: 9.487804878048781
+average latency after final process: 17.910569105691057
+latency after infer: 9.46774193548387
+average latency after final process: 17.89516129032258
+latency after infer: 9.472
+average latency after final process: 17.888
+latency after infer: 9.46031746031746
+average latency after final process: 17.873015873015873
+latency after infer: 9.440944881889763
+average latency after final process: 17.874015748031496
+latency after infer: 9.4375
+average latency after final process: 17.8671875
+latency after infer: 9.418604651162791
+average latency after final process: 17.852713178294575
+latency after infer: 9.4
+average latency after final process: 17.823076923076922
+latency after infer: 9.389312977099237
+average latency after final process: 17.80916030534351
+latency after infer: 9.386363636363637
+average latency after final process: 17.795454545454547
+latency after infer: 9.368421052631579
+average latency after final process: 17.789473684210527
+latency after infer: 9.485074626865671
+average latency after final process: 18.007462686567163
+latency after infer: 9.511111111111111
+average latency after final process: 18.014814814814816
+latency after infer: 9.522058823529411
+average latency after final process: 18.00735294117647
+latency after infer: 9.518248175182482
+average latency after final process: 17.985401459854014
+latency after infer: 9.507246376811594
+average latency after final process: 17.985507246376812
+latency after infer: 9.489208633093526
+average latency after final process: 17.949640287769785
+latency after infer: 9.492857142857142
+average latency after final process: 17.935714285714287
+latency after infer: 9.50354609929078
+average latency after final process: 17.97163120567376
+latency after infer: 9.5
+average latency after final process: 17.95774647887324
+latency after infer: 9.517482517482517
+average latency after final process: 17.993006993006993
+latency after infer: 9.5
+average latency after final process: 17.97222222222222
+latency after infer: 9.49655172413793
+average latency after final process: 17.99310344827586
+latency after infer: 9.479452054794521
+average latency after final process: 17.97945205479452
+latency after infer: 9.46938775510204
+average latency after final process: 17.979591836734695
+latency after infer: 9.445945945945946
+average latency after final process: 17.945945945945947
+latency after infer: 9.429530201342281
+average latency after final process: 17.93288590604027
+latency after infer: 9.426666666666666
+average latency after final process: 17.946666666666665
+latency after infer: 9.417218543046358
+average latency after final process: 17.920529801324502
+latency after infer: 9.401315789473685
+average latency after final process: 17.92105263157895
+latency after infer: 9.392156862745098
+average latency after final process: 17.92156862745098
+latency after infer: 9.383116883116884
+average latency after final process: 17.9025974025974
+latency after infer: 9.36774193548387
+average latency after final process: 17.903225806451612
+latency after infer: 9.352564102564102
+average latency after final process: 17.891025641025642
+latency after infer: 9.363057324840764
+average latency after final process: 17.89171974522293
+latency after infer: 9.354430379746836
+average latency after final process: 17.88607594936709
+latency after infer: 9.339622641509434
+average latency after final process: 17.88679245283019
+latency after infer: 9.325
+average latency after final process: 17.8625
+latency after infer: 9.322981366459627
+average latency after final process: 17.84472049689441
+latency after infer: 9.32716049382716
+average latency after final process: 17.833333333333332
+latency after infer: 9.325153374233128
+average latency after final process: 17.822085889570552
+latency after infer: 9.310975609756097
+average latency after final process: 17.804878048780488
+latency after infer: 9.32121212121212
+average latency after final process: 17.806060606060605
+latency after infer: 9.355421686746988
+average latency after final process: 17.837349397590362
+latency after infer: 9.377245508982035
+average latency after final process: 17.84431137724551
+latency after infer: 9.380952380952381
+average latency after final process: 17.845238095238095
+latency after infer: 9.372781065088757
+average latency after final process: 17.828402366863905
+latency after infer: 9.364705882352942
+average latency after final process: 17.852941176470587
+latency after infer: 9.35672514619883
+average latency after final process: 17.830409356725145
+latency after infer: 9.348837209302326
+average latency after final process: 17.813953488372093
+latency after infer: 9.341040462427745
+average latency after final process: 17.815028901734102
+latency after infer: 9.339080459770114
+average latency after final process: 17.816091954022987
+latency after infer: 9.342857142857143
+average latency after final process: 17.81142857142857
+latency after infer: 9.329545454545455
+average latency after final process: 17.806818181818183
+latency after infer: 9.31638418079096
+average latency after final process: 17.80225988700565
+latency after infer: 9.331460674157304
+average latency after final process: 17.808988764044944
+latency after infer: 9.363128491620111
+average latency after final process: 17.8268156424581
+latency after infer: 9.377777777777778
+average latency after final process: 17.85
+latency after infer: 9.375690607734807
+average latency after final process: 17.83977900552486
+latency after infer: 9.373626373626374
+average latency after final process: 17.835164835164836
+latency after infer: 9.382513661202186
+average latency after final process: 17.830601092896174
+latency after infer: 9.38586956521739
+average latency after final process: 17.83695652173913
+latency after infer: 9.383783783783784
+average latency after final process: 17.843243243243244
+latency after infer: 9.413978494623656
+average latency after final process: 17.865591397849464
+latency after infer: 9.401069518716577
+average latency after final process: 17.86631016042781
+latency after infer: 9.393617021276595
+average latency after final process: 17.872340425531913
+latency after infer: 9.396825396825397
+average latency after final process: 17.862433862433864
+latency after infer: 9.384210526315789
+average latency after final process: 17.852631578947367
+latency after infer: 9.3717277486911
+average latency after final process: 17.848167539267017
+latency after infer: 9.354166666666666
+average latency after final process: 17.817708333333332
+latency after infer: 9.347150259067357
+average latency after final process: 17.803108808290155
+latency after infer: 9.34020618556701
+average latency after final process: 17.804123711340207
+latency after infer: 9.328205128205129
+average latency after final process: 17.8
+latency after infer: 9.38265306122449
+average latency after final process: 17.857142857142858
+latency after infer: 9.426395939086294
+average latency after final process: 17.898477157360407
+latency after infer: 9.414141414141413
+average latency after final process: 17.8989898989899
+latency after infer: 9.417085427135678
+average latency after final process: 17.90954773869347
+latency after infer: 9.41
+average latency after final process: 17.92
+latency after infer: 9.412935323383085
+average latency after final process: 17.930348258706466
+latency after infer: 9.400990099009901
+average latency after final process: 17.91089108910891
+latency after infer: 9.38423645320197
+average latency after final process: 17.901477832512317
+latency after infer: 9.377450980392156
+average latency after final process: 17.901960784313726
+latency after infer: 9.365853658536585
+average latency after final process: 17.88780487804878
+latency after infer: 9.364077669902912
+average latency after final process: 17.883495145631066

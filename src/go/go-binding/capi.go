@@ -1,4 +1,5 @@
 // go:build (darwin && cgo) || linux
+//go:build (darwin && cgo) || linux
 // +build darwin,cgo linux
 
 package main
@@ -14,6 +15,7 @@ import (
 	"image/color"
 	"log"
 	"net/http"
+	"os"
 	"time"
 	"unsafe"
 
@@ -69,8 +71,8 @@ const (
 )
 
 const (
-	modelName = "yolov5s"
-	modelConfigPath = "/app/config/config_detection.json"
+	modelName        = "yolov5s"
+	modelConfigPath  = "/app/config/config_detection.json"
 	inputVideoSource = "/ovms/demos/coca-cola-4465029.mp4"
 )
 
@@ -497,6 +499,18 @@ func main() {
 
 func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
 	server *OVMS_Server, camWidth float32, camHeight float32) {
+	var aggregateLatencyAfterInfer float64
+	var aggregateLatencyAfterFinalProcess float64
+	var frameNum float64
+
+	// output latency metic to txt
+	latencyMetricFile := "./results/latency.txt"
+	file, err := os.Create(latencyMetricFile)
+	if err != nil {
+		fmt.Printf("failed to write to file:%v", err)
+	}
+	defer file.Close()
+
 	for webcam.IsOpened() {
 		if ok := webcam.Read(img); !ok {
 			// retry once after 1 millisecond
@@ -506,14 +520,14 @@ func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
 		if img.Empty() {
 			continue
 		}
-
+		frameNum++
 		gocv.Resize(*img, img, image.Point{416, 416}, 0, 0, 3)
 
 		// convert to image matrix to use float32
 		img.ConvertTo(img, gocv.MatTypeCV32F)
 		imgToBytes := img.ToBytes()
 
-		start := time.Now().UnixMilli()
+		start := float64(time.Now().UnixMilli())
 
 		request, err := OVMS_InferenceRequestNew(server, modelName, 0)
 		if err != nil {
@@ -537,9 +551,13 @@ func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
 			fmt.Printf("failed to get response for inference request: %v\n", err)
 		}
 
-		// track the latency after inference
-		afterInfer := time.Now().UnixMilli()
-		fmt.Printf("latency after infer: %v\n", afterInfer-start)
+		afterInfer := float64(time.Now().UnixMilli())
+		aggregateLatencyAfterInfer += (afterInfer - start)
+		latencyStr := fmt.Sprintf("latency after infer: %v\n", aggregateLatencyAfterInfer/frameNum)
+		_, err = file.WriteString(latencyStr)
+		if err != nil {
+			fmt.Printf("failed to write to file:%v", err)
+		}
 
 		outputCount, err := response.OVMS_InferenceResponseGetOutputCount()
 		if err != nil {
@@ -572,8 +590,14 @@ func run(webcam *gocv.VideoCapture, img *gocv.Mat, stream *mjpeg.Stream,
 		fmt.Printf("length of detectedObjects after final processing: %v\n", len(detectedObjects.Objects))
 
 		// // track the latency after  processing latency
-		afterFinalProcess := time.Now().UnixMilli()
-		fmt.Printf("latency after final process: %v\n", afterFinalProcess-start)
+		afterFinalProcess := float64(time.Now().UnixMilli())
+		aggregateLatencyAfterFinalProcess += (afterFinalProcess - start)
+		latencyStr = fmt.Sprintf("average latency after final process: %v\n", aggregateLatencyAfterFinalProcess/frameNum)
+		_, err = file.WriteString(latencyStr)
+		if err != nil {
+			fmt.Printf("failed to write to file:%v", err)
+		}
+		// fmt.Printf("latency after final process: %v\n", afterFinalProcess-start)
 
 		// add bounding boxes to resixed image
 		detectedObjects.AddBoxesToFrame(img, color.RGBA{0, 255, 0, 0}, camWidth, camWidth)
