@@ -70,7 +70,7 @@ const (
 
 const (
 	modelName = "yolov5s"
-	modelConfigPath = "/app/config_yolov5.json"
+	modelConfigPath = "/app/config/config_detection.json"
 	inputVideoSource = "/ovms/demos/coca-cola-4465029.mp4"
 )
 
