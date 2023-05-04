@@ -19,6 +19,7 @@ import (
 
 	"github.com/hybridgroup/mjpeg"
 	tensoroutput "github.com/openvinotoolkit/model_sever/src/go/go-binding/tensorOutput"
+	utilities "github.com/openvinotoolkit/model_sever/src/go/go-binding/utilities"
 	"github.com/openvinotoolkit/model_sever/src/go/go-binding/yolov5"
 	"gocv.io/x/gocv"
 )
@@ -68,8 +69,8 @@ const (
 	OVMS_BUFFERTYPE_HDDL
 )
 
+var modelName = "yolov5s"
 const (
-	modelName = "yolov5s"
 	modelConfigPath = "/app/config/config_detection.json"
 	inputVideoSource = "/ovms/demos/coca-cola-4465029.mp4"
 )
@@ -460,6 +461,11 @@ func main() {
 	logLevel := OVMS_LogLevelNew(OVMS_LOG_DEBUG)
 	serverSettings.OVMS_ServerSettingsSetLogLevel(logLevel)
 
+	modelName, err = utilities.GetModelNameFromConfig(modelConfigPath)
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return
+	}
 	// config_yolov5.json
 	modelSettings.OVMS_ModelsSettingsSetConfigPath(modelConfigPath)
 
