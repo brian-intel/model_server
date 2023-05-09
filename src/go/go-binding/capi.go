@@ -461,11 +461,18 @@ func main() {
 	logLevel := OVMS_LogLevelNew(OVMS_LOG_DEBUG)
 	serverSettings.OVMS_ServerSettingsSetLogLevel(logLevel)
 
-	modelName, err = utilities.GetModelNameFromConfig(modelConfigPath)
+	modelNameList, err := utilities.GetModelNameFromConfig(modelConfigPath)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return
 	}
+	if len(modelNameList) == 0 {
+		fmt.Printf("Model name list can not be empty!")
+		return
+	}
+
+	modelName = modelNameList[0]
+
 	// config_yolov5.json
 	modelSettings.OVMS_ModelsSettingsSetConfigPath(modelConfigPath)
 
