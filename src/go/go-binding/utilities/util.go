@@ -41,7 +41,7 @@ func Clamp(val float32, min float32, max float32) float32 {
 	return val
 }
 
-func GetModelNameFromConfig(configfilepath string) ([]string, error) {
+func GetModelNameListFromConfig(configfilepath string) ([]string, error) {
 	if configfilepath == "" {
 		return nil, fmt.Errorf("Invalid input configfilepath: %v", configfilepath)
 	}

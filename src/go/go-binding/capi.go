@@ -461,7 +461,7 @@ func main() {
 	logLevel := OVMS_LogLevelNew(OVMS_LOG_DEBUG)
 	serverSettings.OVMS_ServerSettingsSetLogLevel(logLevel)
 
-	modelNameList, err := utilities.GetModelNameFromConfig(modelConfigPath)
+	modelNameList, err := utilities.GetModelNameListFromConfig(modelConfigPath)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return
