@@ -1,6 +1,11 @@
 package utilities
 
-import "math"
+import (
+	"math"
+	"fmt"
+	"io/ioutil"
+	"encoding/json"
+)
 
 func ExpPow(val float32) float32 {
 	val_float64 := float64(val)
@@ -34,4 +39,41 @@ func Clamp(val float32, min float32, max float32) float32 {
 		return max
 	}
 	return val
+}
+
+func GetModelNameListFromConfig(configfilepath string) ([]string, error) {
+	if configfilepath == "" {
+		return nil, fmt.Errorf("Invalid input configfilepath: %v", configfilepath)
+	}
+
+	type ModelConfigDetail struct {
+		Name string `json:"name"`
+	}
+
+	type ModelConfig struct {
+		Config ModelConfigDetail `json:"config"`
+	}
+
+	type ModelConfigList struct {
+		ModelConfigList []ModelConfig `json:"model_config_list"`
+	}
+
+	content, err := ioutil.ReadFile(configfilepath)
+	if err != nil {
+		return nil, err
+	}
+
+	var modelConfigList ModelConfigList
+	err = json.Unmarshal(content, &modelConfigList)
+	if err != nil {
+		return nil, err
+	}
+
+	var modelNameList []string
+	for _, modelconfig := range modelConfigList.ModelConfigList {
+		name := modelconfig.Config.Name
+		modelNameList = append(modelNameList, name)
+	}
+
+	return modelNameList, nil
 }
