@@ -1,17 +1,16 @@
 ARG OPENCV_VERSION=4.6.0
 FROM gocv/opencv:${OPENCV_VERSION} AS gocv
 
-FROM ovms_capi_ocv_gst:latest
+FROM openvino/model_server:latest
 
 # required for installing dependencies
 USER root
 
-RUN apt-get update && apt-get install -y --no-install-recommends libjpeg62 libdc1394-25 gtk+2.0-dev
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential wget libjpeg62 libdc1394-25 gtk+2.0-dev tar libxml2 curl libpugixml1v5 libtbb2 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav
 
 # needed for gocv bindings and env is custom
 ENV CGO_CPPFLAGS="-I/usr/local/include/opencv4"
 ENV CGO_LDFLAGS="-L/usr/local/lib -lopencv_core -lopencv_face -lopencv_videoio -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs -lopencv_objdetect -lopencv_features2d -lopencv_video -lopencv_dnn -lopencv_xfeatures2d -lopencv_calib3d -lopencv_photo"
-
 
 COPY --from=gocv /usr/local /usr/local
 
@@ -23,8 +22,15 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
 RUN go version
 
+RUN wget https://github.com/openvinotoolkit/model_server/releases/download/v2022.3/ovms_ubuntu.tar.gz
+RUN tar -xf ovms_ubuntu.tar.gz
+COPY demos_yolov5 /ovms/demos
+
 RUN mkdir -p /app
 COPY /src/go/go-binding /app
+
+ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH":/usr/local/lib
+ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH":/ovms/lib
 
 WORKDIR /app
 RUN go mod tidy
