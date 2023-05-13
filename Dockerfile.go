@@ -24,8 +24,10 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 RUN go version
 
 RUN mkdir -p /app
-COPY /src/go/go-binding /app
-
 WORKDIR /app
+COPY /src/go/go-binding .
+RUN mkdir -p ocr
+COPY /ocr ./ocr/
+
 RUN go mod tidy
 RUN go build -tags customenv capi.go
