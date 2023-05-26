@@ -23,3 +23,6 @@ lib/
 !client/python/ovmsclient/lib
 cppclean_src
 cppclean_test
+config/OCR/east_fp32/
+config/OCR/text-recognition/
+ocr/EAST/
