@@ -40,11 +40,11 @@ make build
 This command will create pip wheel placed in `dist` directory.
 
 *Note*: For development purposes, you may want to repeatedly rebuild the package.
-Assuming you have TFS API built, you can use `make build-package` target to build only the `ovmsclient` package and ommit downloading and building the TFS API.
+Assuming you have TFS API built, you can use `make build-package` target to build only the `ovmsclient` package and omit downloading and building the TFS API.
 
 **To install the package run:**
 ```bash
-pip3 install --force-reinstall --no-deps dist/ovmsclient-2022.3-py3-none-any.whl
+pip3 install --force-reinstall --no-deps dist/ovmsclient-2023.0-py3-none-any.whl
 ```
 
 *Note*: For development purposes you may want to repeatedly reinstall the package.
@@ -61,7 +61,7 @@ make build-package
 ```
  - `make test` - runs tests on `ovmsclient` package. By default the package located in `dist/` directory is used. To specify custom package path pass `PACKAGE_PATH` option like: 
 
-   `make test PACKAGE_PATH=/opt/packages/ovmsclient-2022.3-py3-none-any.whl`
+   `make test PACKAGE_PATH=/opt/packages/ovmsclient-2023.0-py3-none-any.whl`
 ```bash
 make test
 ```
